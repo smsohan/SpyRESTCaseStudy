@@ -325,7 +325,7 @@
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
-%\usepackage{url}
+\usepackage{url}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
 % systems. The latest version can be obtained at:
@@ -352,7 +352,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{A Case Study of Automated Example Oriented REST API Documentation at Cisco}
+\title{Automated Example Oriented REST API Documentation at Cisco}
 
 
 % author names and affiliations
@@ -417,12 +417,12 @@ frank.maurer@ucalgary.ca}
 
 
 \begin{abstract}
-The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR TITLE OR ABSTRACT.
+API documentation is both a problem and an opportunity with respect to the usability of an API. Representational State Transfer, or more commonly known as REST based APIs are used by software developers to interconnect applications over HTTP. Developers are required to publish and maintain the documentation of their REST APIs so that other developers can learn and use the APIs as intended. This poses the problem of identifying an efficient and effective process of generating and maintaining the documentation of REST APIs. In this paper, we have discussed our lessons learned from the production use of an automated example oriented REST API documentation approach using a tool called SpyREST at Cisco over a period of eighteen months. We have observed that continuously updated documentation can be achieved by using automated test code against a REST API. Practitioners can leverage the insights shared on this paper to improve the state of their REST API documentation process. Researchers and tool developers can incorporate the ideas from this case study to extend the example oriented documentation approach to APIs beyond the realm of REST APIs.
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-component; formatting; style; styling;
+API; REST; Documentation; Tool; Case study; Test; Automation; HTTP; Web API;
 
 \end{IEEEkeywords}
 
@@ -437,28 +437,23 @@ component; formatting; style; styling;
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
-
 \section{Introduction}
-% no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
-
-All manuscripts must be in English. These guidelines include complete descriptions of the fonts, spacing, and related information for producing your proceedings manuscripts. Please follow them and if you have any questions, direct them to the production editor in charge of your proceedings at Conference Publishing Services (CPS): Phone +1 (714) 821-8380 or Fax +1 (714) 761-1784.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
-
-\subsection{Subsection Heading Here}
-Subsection text here.
+Application Programming Interfaces, commonly known as APIs, are used to express a software component in terms of its operations, inputs, outputs, and their types\footnote{\url{https://en.wikipedia.org/wiki/Application_programming_interface}}. Robillard describes API as follows: An API is the interface to implement functionality that developers can access to perform various tasks \cite{Robillard_a_field_study} \cite{Robillard_what_makes}.
 
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+RESTful APIs are a subclass of APIs that use standard web technologies for interconnectivity over HTTP. Fielding defined Representational State Transfer or REST as an architectural style for developing distributed hypermedia systems \cite{Fielding_rest}. RESTful APIs provide an abstraction of the underlying system by using system specific resources such as documents, images, etc. and unique identifiers to access the resources. Using RESTful APIs, systems perform actions on the resources by transferring a representation of the resources between various systems. For example, the GitHub RESTful API\footnote{\url{https://developer.github.com/v3/repos/#create}} has a resource called $Repository$ to denote a code repository hosted on GitHub.
 
-\section{Type style and Fonts}
-Wherever Times is specified, Times Roman or Times New Roman may be used. If neither is available on your system, please use the font closest in appearance to Times. Avoid using bit-mapped fonts if possible. True-Type 1 or Open Type fonts are preferred. Please embed symbol fonts, as well, for math, etc.
+Researchers identified the documentation of APIs as both the primary source of information as well as the key obstacle for API usability \cite{Robillard_what_makes}. To this regard, researchers have identified the qualities of ``good API documentation'' as follows: complete, correct, includes thorough explanations and code examples, provides consistent presentation and organization \cite{Robillard_what_makes,Myers_study}. In our previous work, we introduced a novel technique and SpyREST, an implementation, based on an HTTP proxy server to automatically intercept example REST API calls and synthesize the data to produce REST API documentation to meet the aforementioned qualities.
 
+The case study in this paper presents an evaluation of SpyREST in the industry. SpyREST is being used in production at Cisco for the documentation of a commercial REST API of a cloud based Cyber security product that the first author of this paper is affiliated with. It provides us with a unique opportunity to analyze the impact of the industry adoption of a tool developed in research. Production usage over an eighteen month period also allows us to understand the problem and opportunities presented by SpyREST in depth. Based on our observations, the core contribution of this case study is as follows:
+
+\begin{itemize}
+  \item Test driven REST API documentation. For practitioners, we discuss a technique for producing example oriented REST API documentation as a byproduct from automated API test code.
+  \item Evolution of API documentation. For practitioners, we discuss a technique for maintaining the evolution of API documentation as the API evolves.
+  \item Implications for future work. We show a practical evidence of the viability of using interception to transform example API calls into API documentation with examples. Researchers can leverage this technique for the documentation of other forms of APIs beyond REST.
+\end{itemize}
+
+The remainder of this paper is organized as follows: we present a literature review to discuss the current state of research on REST API documentation. Then, we provide a brief overview of our REST API documentation technique and the tool, followed by a case study of using the tool at Cisco. Then, we discuss our lessons learned and the limitations of this case study.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -580,14 +575,8 @@ more thanks here
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
-
+\bibliography{references}
 
 
 
