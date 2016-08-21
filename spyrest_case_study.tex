@@ -522,7 +522,7 @@ Table \ref{table:restful_apis} contrasts the current state of tool support for R
 
 \section{Overview of SpyREST} % (fold)
 \label{sec:overview}
-We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. In our previous papers, we have discussed the design and implementation of this tool in greater detail \cite{sohan2015spyrest}.
+We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. In our previous papers, we have discussed the design and implementation of this tool in greater detail \cite{DBLP:conf/kbse/SohanAM15}.
 
 At the heart of the technique is a pass-through HTTP proxy server which acts as an interceptor between an API client and the API. This allows the proxy server to inspect the raw HTTP request and response data from the example API calls. However, for usable API documentation the raw HTTP data needs to be furthered processed and enriched with meta data. For example, given the following HTTP request and response data from an example API call to create a blog post:
 \begin{lstlisting}
@@ -581,7 +581,6 @@ SpyREST has a web based UI to render a hierarchical representation of the aforem
 To generate usable API documentation, REST API developers need to run appropriate example API calls via SpyREST proxy server. Once a set of example API calls are defined, the documentation can be auto-updated by replaying the example API calls. The replay only updates the auto-generated part of the documentation leaving the human written descriptions unchanged.
 
 To summarize, SpyREST provides tool support to improve the process of REST API documentation with usage examples, automatic updates, executable examples and a consistent hierarchical representation of the API.
-
 
 % section overview (end)
 
