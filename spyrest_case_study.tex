@@ -522,7 +522,7 @@ Table \ref{table:restful_apis} contrasts the current state of tool support for R
 
 \section{Overview of SpyREST} % (fold)
 \label{sec:overview}
-We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. In our previous papers, we have discussed the design and implementation of this tool in greater detail \cite{DBLP:conf/kbse/SohanAM15}.
+We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. In our previous papers, we have discussed the design and implementation of this tool in greater detail \cite{DBLP:conf/kbse/SohanAM15, DBLP:conf/kbse/SohanAM15a}.
 
 At the heart of the technique is a pass-through HTTP proxy server which acts as an interceptor between an API client and the API. This allows the proxy server to inspect the raw HTTP request and response data from the example API calls. However, for usable API documentation the raw HTTP data needs to be furthered processed and enriched with meta data. For example, given the following HTTP request and response data from an example API call to create a blog post:
 \begin{lstlisting}
