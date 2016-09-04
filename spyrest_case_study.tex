@@ -684,8 +684,12 @@ When an API update doesn't require a new API example to describe the change, the
 \label{sub:rest_api_evolution}
 In the case study we have observed the evolution of the API and it's documentation is triggered by the following: 1) new requirements, and 2) internal reviews of the API. For example, the primary difference between the v0 and v1 of the API is the addition of a new requirement to allow API client developers the features to modify API objects in v1 that only allowed read-only access on v0.
 
-While the new requirements are developed, before they are released to production, the API undergoes through a more frequent evolution, several times a day, triggered by internal reviews of the API by the peer API developers and the quality assurance team. An up-to-date API documentation auto-generated using SpyREST is used during the internal review processes to suggest alternatives and verify API acceptance criteria.
+While the new requirements are developed, before they are released to production, the API undergoes through a more frequent evolution, several times a day, triggered by internal reviews of the API by the peer API developers and the quality assurance team. The auto-generated API documentation using SpyREST is used in the internal reviews to suggest alternatives and verify API acceptance criteria.
 
+API evolution before and after the production release of the API has two opposing forces, yet one helps achieve the other. After an API is published to production, we are unable to make any breaking changes without affecting customers. To support this feature, we found it important to be able to evolve the API frequently before the API is published. The always up-to-date API documentation has helped establish a quick feedback loop and the ability to make frequent changes to the API and its documentation throughout the life-cycle of the API.
+
+
+\section{Discussion}
 
 
 % subsection rest_api_evolution (end)
