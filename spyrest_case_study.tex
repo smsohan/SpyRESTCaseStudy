@@ -132,6 +132,9 @@
   \usepackage{textcomp}
   \usepackage{listings}
   \lstset{upquote=true}
+  \usepackage{subfig}
+  \usepackage{float}
+  \floatstyle{boxed}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -256,7 +259,7 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-%\usepackage[tight,footnotesize]{subfigure}
+% \usepackage[tight,footnotesize]{subfigure}
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
 % easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
 % work, it is a good idea to load it with the tight package option to reduce
@@ -481,17 +484,17 @@ Several authors presented techniques for linking official API documentation with
 As mentioned above, we observed that the research on API documentation related tools have focused on local APIs such as Java library APIs. We found a lack of published work on the tool support for including usage examples with REST API documentation.s
 
 \subsection{REST API Documentation} % (fold)
-Maleshkova analyzed the state of RESTful APIs and found that most RESTful APIs are manually documented which results in API underspecification, and a lack of support for common tasks and reusable tools \cite{Maleshkova_investigating}. Myers et al. performed a user study on the usability of a complex API for enterprise SOA \cite{Myers_study}. They recommended providing a consistent look-and-feel with explanation for the starting points and an overall map comprising of both text and diagrams, providing a browsing experience with breadcrumb trail following a hierarchy, an effective search interface, providing example code and a way to exercise the examples online without writing code. In a case study, we found the documentation of RESTful APIs are performed manually or using bespoke tools \cite{sohan2015case}. We observed the documentation of the studied RESTful APIs to commonly include summary information and API examples, with optional description of the structure of API requests and responses.
+Maleshkova analyzed the state of REST APIs and found that most REST APIs are manually documented which results in API underspecification, and a lack of support for common tasks and reusable tools \cite{Maleshkova_investigating}. Myers et al. performed a user study on the usability of a complex API for enterprise SOA \cite{Myers_study}. They recommended providing a consistent look-and-feel with explanation for the starting points and an overall map comprising of both text and diagrams, providing a browsing experience with breadcrumb trail following a hierarchy, an effective search interface, providing example code and a way to exercise the examples online without writing code. In a case study, we found the documentation of REST APIs are performed manually or using bespoke tools \cite{sohan2015case}. We observed the documentation of the studied REST APIs to commonly include summary information and API examples, with optional description of the structure of API requests and responses.
 
-Several authors have suggested machine readable specification languages for REST APIs that can be used to transform into API documentation and auto generated API client code. Hadley proposed WADL (Web Application Description Language) \cite{hadley2006web}. Mangler et al. proposed RIDDL as an extension of WADL to support composition and evolution of REST APIs \cite{mangler2010origin}. Kopecky et al. proposed hRESTS, as an HTML based mico-format to describe RESTful APIs \cite{Kopecky_hrests}. Verborgh et al. proposed RESTdesc as a language to define RESTful APIs using resources and links that connects the resources \cite{RESTdesc}. Danielsen presented a vocabulary to describe RESTful APIs using WIfL(Web Interface Language) \cite{Danielsen_validation}. Lei et al. presented OmniVoke as a tool to abstract out multiple RESTful APIs under a unified interface following a specification \cite{Ning_omnivoke}. Polak proposed a specification format for REST API using the Model-Driven Architectural principle where the evolution of a REST API can be programmatically managed from it's model representation \cite{Polak:2015:RAM:2790798.2790820}.
+Several authors have suggested machine readable specification languages for REST APIs that can be used to transform into API documentation and auto generated API client code. Hadley proposed WADL (Web Application Description Language) \cite{hadley2006web}. Mangler et al. proposed RIDDL as an extension of WADL to support composition and evolution of REST APIs \cite{mangler2010origin}. Kopecky et al. proposed hRESTS, as an HTML based mico-format to describe REST APIs \cite{Kopecky_hrests}. Verborgh et al. proposed RESTdesc as a language to define REST APIs using resources and links that connects the resources \cite{RESTdesc}. Danielsen presented a vocabulary to describe REST APIs using WIfL(Web Interface Language) \cite{Danielsen_validation}. Lei et al. presented OmniVoke as a tool to abstract out multiple REST APIs under a unified interface following a specification \cite{Ning_omnivoke}. Polak proposed a specification format for REST API using the Model-Driven Architectural principle where the evolution of a REST API can be programmatically managed from it's model representation \cite{Polak:2015:RAM:2790798.2790820}.
 
-In addition to the existing literature, several REST API description languages have been proposed by industry practitioners such as RAML\footnote{\url{http://raml.org/}}, Blueprint\footnote{\url{https://apiblueprint.org/}}, and Swagger\footnote{\url{http://swagger.io/}}. There are tools that can automatically convert and publish the description of RESTful APIs from these languages into HTML based RESTful API documentation.
+In addition to the existing literature, several REST API description languages have been proposed by industry practitioners such as RAML\footnote{\url{http://raml.org/}}, Blueprint\footnote{\url{https://apiblueprint.org/}}, and Swagger\footnote{\url{http://swagger.io/}}. There are tools that can automatically convert and publish the description of REST APIs from these languages into HTML based REST API documentation.
 
 The primary advantage of these specification languages is code generation and automatic transformation into REST API documentation. On the other hand, we found a lack of automated tool support for producing the API specifications for REST APIs.
 
 \begin{table}[!tbh]
   \caption{REST API Documentation}
-  \label{table:restful_apis}
+  \label{table:rest_apis}
 \begin{tabular}{|p{1in} | p{2.2in}|}
 \hline
 \textbf{Desirable Property} & \textbf{Current State} \\
@@ -518,7 +521,7 @@ Includes access information, resources, actions, request and response structures
 \end{table}
 
 
-Table \ref{table:restful_apis} contrasts the current state of tool support for REST API documentation against a set of properties that researchers identified as required for API usability. In summary, practitioners and researchers have attempted to solve the problem of RESTful API documentation by proposing candidate specifications to standardize the vocabulary and format of describing RESTful APIs. Manual work is needed by REST API developers to generate and maintain their API specifications as it evolves. These specification formats support describing the structure of different API elements (the syntax), but no support is provided for API usage examples and executable API examples (the semantics), an important attribute for API learnability as identified by the researchers. Also, we found a lack of published papers on the effectiveness of the aforementioned specification languages in an industry setting. In our work with SpyREST, instead of relying on specification, we have focused on automatically intercepting and transforming example REST API calls into usable documentation. In this paper we have shared the lessons learned of using this new technique at Cisco.
+Table \ref{table:rest_apis} contrasts the current state of tool support for REST API documentation against a set of properties that researchers identified as required for API usability. In summary, practitioners and researchers have attempted to solve the problem of REST API documentation by proposing candidate specifications to standardize the vocabulary and format of describing REST APIs. Manual work is needed by REST API developers to generate and maintain their API specifications as it evolves. These specification formats support describing the structure of different API elements (the syntax), but no support is provided for API usage examples and executable API examples (the semantics), an important attribute for API learnability as identified by the researchers. Also, we found a lack of published papers on the effectiveness of the aforementioned specification languages in an industry setting. In our work with SpyREST, instead of relying on specification, we have focused on automatically intercepting and transforming example REST API calls into usable documentation. In this paper we have shared the lessons learned of using this new technique at Cisco.
 
 \section{Overview of SpyREST} % (fold)
 \label{sec:overview}
@@ -582,6 +585,112 @@ To generate usable API documentation, REST API developers need to run appropriat
 
 To summarize, SpyREST provides tool support to improve the process of REST API documentation with usage examples, automatic updates, executable examples and a consistent hierarchical representation of the API.
 
+\section{SpyREST at Cisco}
+
+\subsection{The API} % (fold)
+\label{sub:the_api}
+SpyREST has been used to document the REST API for a cloud delivered cyber security software at Cisco. The API allows the customers of the cyber security software to extract and modify security related data specific to their businesses from the cloud to facilitate automation and custom third-party integration. For example, some customers use the API to automatically create an investigation ticket on their ticketing system for each malware detection event.
+
+At present, the API is served under two different versions, v0 and v1. The API is also served from three different Cisco managed cloud backend that are geographically separated for North America, Europe and Asia Pacific. Additionally, the API is also shipped with a private cloud appliance, where customers can host the security software on-premise outside the Cisco managed cloud instances. Even though the different environments are designed to eventually serve the API with identical features, the deployment of the API to each environment is independent of the rest of the environments.
+
+In the latest version, v1, the API allows the API client developers to interact with nine different API resources, and a total of twenty API actions to be performed on those resources. For example, the API has a resource named ``Computer'', and an action $PATCH /v1/computers/{:connector_guid}$ for updating a computer. The older version, v0, has 6 resources and 10 API actions, that are also present in the v1.
+
+The API was first launched with version v0 in February 2015, and the version v1 was released in May, 2016. The API has evolved several times while keeping the version numbers unchanged to release backward compatible new features and bug fixes. At present, the API serves approximately 80,000 API calls per day on an average and used by over a hundred enterprise customers that are globally distributed. The customers use the SpyREST generated documentation as the sole information source for learning the API features.
+
+\subsection{The Stakeholders} % (fold)
+The REST API has several stakeholders as follows: customers, API client developers, customer support team, product management, API developers, and quality assurance engineers. Customers and potential customers are interested in an API so that custom tooling and business specific integration can be performed. This adds further value to the purchased cyber security software to the customer. API client developers are often employed by the customers to implement API integrations. The API client developers are interested in the technical details about the API and actively use the API documentation to implement the custom features for the customers. At present, over a hundred unique customers use the API at least once a month.
+
+Inside Cisco, the stakeholders are the customer support team, product management team, API developers and quality assurance engineers. The customer support team connects the developers and quality assurance engineers with the customers to establish a closed communication loop for API related requirements and customer feedback about released APIs. Product management team is responsible for providing input about API requirements and scheduling the release of API updates. API developers are Cisco employees that are in charge of implementing the API and it's documentation. The quality assurance engineers are responsible for developing and verifying the acceptance criteria for the REST API according to the requirements. At present, a total of 25 people, including the first author, are involved as the Cisco stakeholders for the REST API of the cyber security product in this case study.
+
+\subsection{The Process} % (fold)
+
+\subsubsection{REST API Documentation Tool Selection}
+The API developers and QA engineers participated in the selection of an appropriate REST API documentation tool. The following wish-list of API documentation features were collected during meetings involving the stakeholders:
+
+\begin{itemize}
+  \item R1. Support multiple versions
+  \item R2. Support multiple environments
+  \item R3. Easy to maintain
+  \item R4. Include executable API usage examples
+  \item R5. Use familiar tools
+  \item R6. Allow customization
+\end{itemize}
+
+A list of REST API documentation tools were selected for ``spikes'', a practice used by the software engineers to better understand a tool and how it fits a the problem in hand. The API developers and QA engineers shared informal opinions based on their spikes about about three different tools, Swagger, API Blueprint and SpyREST. Swagger and Blueprint were researched because of their perceived maturity and industry adoption information as found through online searches and StackOverflow.com activities. The first author in this paper introduced SpyREST to the teams as a candidate solution to consider.
+
+The verdict to use SpyREST was based on the observation that using Swagger or API blueprint required us to maintain the REST API documentation as a separate but parallel artifact from the API related code. The available tool support for Swagger or API Blueprint specifications had little support for Ruby on Rails, the primary programming language used by the team to develop it's products. As a result, it'd require manual effort to keep the two in sync as the API evolves. SpyREST was found to provide better support for R3, R4, and R5 over Swagger or API Blueprint as the developers could auto-generate the documentation from the functional test suite that are already written and maintained with the code. A round of informal feedback on SpyREST was collected after the first production release of the API. The teams decided to continue using SpyREST for API documentation.
+
+\begin{figure*}
+\subfloat[API Overview in SpyREST]{
+\includegraphics[width=\textwidth]{overview.png}
+\label{fig:screenshot_overview}
+}
+\\
+\subfloat[SpyREST Analyzed API Structure]{
+\includegraphics[width=0.32\textwidth]{fields.png}
+\label{fig:screenshot_fields}
+}
+\subfloat[SpyREST Recorded API Request]{\includegraphics[width= 0.32\textwidth]{request.png}
+\label{fig:screenshot_request}
+}
+\subfloat[SpyREST Recorded API Response]{\includegraphics[width= 0.32\textwidth]{response.png}
+\label{fig:screenshot_response}
+}
+\caption{Screenshots of the REST API documentation from Cisco using SpyREST}
+\label{fig:screenshot}
+\end{figure*}
+
+\subsubsection{Documentation of a new API Action}
+The REST API developers and quality assurance engineers of the cyber security product at Cisco use SpyREST to generate the API documentation throughout the lifecycle of an API from the developer workstation to a production instance. When a new API action is introduced, the API developers write one or more functional tests against the API to show an intended usage example. If the functional test is run using SpyREST proxy server, it automatically generates the API documentation. In the following, we provide an example of an automated test fragment from the case study:
+
+\begin{lstlisting}[language=Ruby,breaklines=true,showspaces=false,showstringspaces=false,numbers=left,xleftmargin=2em]
+context 'v1' do
+  describe 'Computer' do
+   it 'Moves computer to a group with given connector_guid and group_guid' do
+
+      response = API.patch("/v1/computers/#{connector_guid}", {
+        headers: 'x-spy-rest-action' => '/v1/computers/{:connector_guid}',
+        body: { group_guid: group_guid }.to_json
+      })
+
+      expect(response.code).to eql(202)
+      #more assertions
+    end
+  end
+end
+\end{lstlisting}
+
+
+This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-8, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 10. The test is written similar to other RSpec tests.
+
+However, the $API$ class has capabilities to make the $patch$ HTTP request over an HTTP Proxy server. While using the proxy server, the $API$ class also sends the test description ``Moves computer to a group with given $connector_guid$ and $group_guid$'' with a SpyREST specific header, x-spy-rest-description, to the proxy server. As discussed earlier, the SpyREST analyzers can inspect the HTTP request and response information with the custom headers to produce a usable REST API documentation from this automated test code.
+
+The next step in the lifecycle of the API documentation is in the automated build server where the test suite is executed against a deployed API on a staging server through a SpyREST proxy. This promotes the REST API documentation from the developer workstation to a shared instance that is used by the quality assurance engineers, product management, and the peer developers to verify against the acceptance criteria. This often results in several loops between the developer workstations and the staging servers until the API and its documentation meets the acceptance criteria. The API developers and quality assurance engineers add any custom content as needed to describe complex API concepts that aren't captured in the automated examples.
+
+The next step in the lifecycle of the API is a release to one or more of the production environments that customers use. With the production release of an updated API, it's documentation is automatically promoted from the staging environment to production. The promotion of the documentation is a three-step process. First, the data from the staging server is exported in a portable archive file. Then, a transformation is performed to update staging specific data such as URLs, email domains, and hostnames within the archive to match the desired production environment. Finally, the transformed archive is published to production as a read-only artifact.
+
+Fig. \ref{fig:screenshot} shows screenshots of the production REST API documentation generated from the aforementioned functional test suite. Fig. \ref{fig:screenshot_overview} shows a fragment of the manually written overview information juxtaposed to the auto-generated index of the API resources. Fig. \ref{fig:screenshot_fields} shows the output of the different analyzers within SpyREST proxy server that automatically detects the version (v1), API resource (Computer), action (PATCH /v1/compouters/...), and the structure of the response fields from the single example API call. Fig. \ref{fig:screenshot_request} shows the transformed example API request headers, body, and an executable cURL command that can be used to exercise the API call. Fig. \ref{fig:screenshot_response} shows the API response headers and body for the example.
+
+\subsubsection{Documentation of a new Version for an Existing API Action}
+
+When API version v1 is launched, all the functional tests for v0 are run on a loop, once per version. This code reuse minimizes the effort required to document multiple versions of the same API action. The rest of the lifecycle steps follow similar process as the documentation of a new API action.
+
+\subsubsection{Documentation of an updated API Action}
+When an API update requires a new example, a new automated test case is written. For example, in the case study, an API action was updated to receive a new query parameter to support an additional operation.
+
+When an API update doesn't require a new API example to describe the change, the API documentation is automatically updated by the build server. For example, in the case study an API action was updated to include a new field with the response body and the API documentation was automatically updated without needing a change in the test code.
+
+\subsubsection{REST API Evolution} % (fold)
+\label{sub:rest_api_evolution}
+In the case study we have observed the evolution of the API and it's documentation is triggered by the following: 1) new requirements, and 2) internal reviews of the API. For example, the primary difference between the v0 and v1 of the API is the addition of a new requirement to allow API client developers the features to modify API objects in v1 that only allowed read-only access on v0.
+
+While the new requirements are developed, before they are released to production, the API undergoes through a more frequent evolution, several times a day, triggered by internal reviews of the API by the peer API developers and the quality assurance team. An up-to-date API documentation auto-generated using SpyREST is used during the internal review processes to suggest alternatives and verify API acceptance criteria.
+
+
+
+% subsection rest_api_evolution (end)
+
+% subsection the_team (end)
 % section overview (end)
 
 % An example of a floating figure using the graphicx package.
