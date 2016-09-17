@@ -640,19 +640,15 @@ The verdict to use SpyREST was based on the observation that using Swagger or AP
 \label{fig:screenshot}
 \end{figure*}
 
-\subsubsection{Documentation of a new API Action}
-The REST API developers and quality assurance engineers of the cyber security product at Cisco use SpyREST to generate the API documentation throughout the lifecycle of an API from the developer workstation to a production instance. When a new API action is introduced, the API developers write one or more functional tests against the API to show an intended usage example. If the functional test is run using SpyREST proxy server, it automatically generates the API documentation. In the following, we provide an example of an automated test fragment from the case study:
 
-\begin{lstlisting}[language=Ruby,breaklines=true,showspaces=false,showstringspaces=false,numbers=left,xleftmargin=2em]
+\begin{lstlisting}[language=Ruby,breaklines=true,showspaces=false,showstringspaces=false,numbers=left,xleftmargin=2em,caption={Functional Test Code},label=listing_test]
 context 'v1' do
   describe 'Computer' do
    it 'Moves computer to a group with given connector_guid and group_guid' do
-
       response = API.patch("/v1/computers/#{connector_guid}", {
         headers: 'x-spy-rest-action' => '/v1/computers/{:connector_guid}',
         body: { group_guid: group_guid }.to_json
       })
-
       expect(response.code).to eql(202)
       #more assertions
     end
@@ -660,8 +656,10 @@ context 'v1' do
 end
 \end{lstlisting}
 
+\subsubsection{Documentation of a new API Action}
+The REST API developers and quality assurance engineers of the cyber security product at Cisco use SpyREST to generate the API documentation throughout the lifecycle of an API from the developer workstation to a production instance. When a new API action is introduced, the API developers write one or more functional tests against the API to show an intended usage example. If the functional test is run using SpyREST proxy server, it automatically generates the API documentation. Listing \ref{listing_test} provides an example of an automated test fragment from the case study.
 
-This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-8, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 10. The test is written similar to other RSpec tests.
+This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-7, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 8. The test is written similar to other RSpec tests.
 
 However, the $API$ class has capabilities to make the $patch$ HTTP request over an HTTP Proxy server. While using the proxy server, the $API$ class also sends the test description ``Moves computer to a group with given $connector_guid$ and $group_guid$'' with a SpyREST specific header, x-spy-rest-description, to the proxy server. As discussed earlier, the SpyREST analyzers can inspect the HTTP request and response information with the custom headers to produce a usable REST API documentation from this automated test code
 
@@ -710,11 +708,11 @@ For researchers, we identify this as an opportunity to continue further research
 \subsection{Handling Flexible API Elements}
 The API elements within REST are not restricted to follow a strict structure. For example, in the case study, we have a flexible API element of type ``Event'' to denote a malware detection event. The actual structure of the ``Event'' API element can be widely different based on the type of the event. For example, a file detection event contains several file specific data such as the fingerprint, name, path on disk, size, etc. On the other hand, a network detection event contains network specific data such as the remote host, URL, IP, protocol, etc. A single API call may return a list of ``Events'' of such different types. In our case study at Cisco, the SpyREST documented API describes the ``Event'' API element as an amalgamation of all the different attributes of the different event types (fingerprint, name, path on disk, size file, remote host, URL, IP, protocol) from the intercepted example API calls. We've observed both the advantages and disadvantages of automatically merging different attributes of the API elements within an array to construct the structure of an API element.
 
-The primary advantage is, it provides a list of all possible attributes that are observed in an API element. So, an API client developer reading the API documentation gets a complete picture of the API element. The primary disadvantage is, it may not clearly communicate the fact that only a subset of the documented attributes may be returned by an API call for each API element. In our case-study at Cisco, the API usage examples captured by SpyREST shows specific examples with different ``Event'' types to provide the context around the event types. We recommend practitioners to follow this pattern since it allows API client developers to understand the implied structure of flexible API elements within the context of specific use cases.
+The main advantage is, it provides a list of all possible attributes that are observed in an API element. So, an API client developer reading the API documentation gets a complete picture of the API element. On the other hand, it may not clearly communicate the fact that only a subset of the documented attributes may be returned by an API call for each API element. In our case-study at Cisco, the API usage examples captured by SpyREST shows specific examples with different ``Event'' types to provide the context around the event types. We recommend practitioners to follow this pattern since it allows API client developers to understand the implied structure of flexible API elements with specific use cases.
 
 
 \subsection{API Documentation Life-cycle}
-We found it to be a critical feature that the API documentation follows the API throughout its life-cycle stages such as development, staging, and production environments for each available API version. In our case study at Cisco, we've achieved this requirement from the test suite that is maintained under the same version control as the REST API code. As a result, for any version of the API, a corresponding documentation can be generated from the accompanying test code.
+We found it to be a critical feature that the API documentation follows the API throughout its life-cycle stages such as development, staging, and production environments for each available API version. In our case study at Cisco, we've achieved this requirement from the test suite that is maintained under the same version control as the REST API code. As a result, for any version of the API, a corresponding documentation can be generated from its test code.
 
 When a REST API documentation is published from a staging environment to production, the data from the API examples may need to be obfuscated and transformed. SpyREST automatically rewrites all  URLs and email domains within the documentation during the production release process. However, there may be other confidential information auto-captured by SpyREST that need to be obfuscated by the API developers. For example, at Cisco, one of our API examples show the user login name on a computer as an API response. To prevent the leakage of this confidential data, we run the tests against a sandbox API environment that serves dummy data. For practitioners and API documentation tool developers, we suggest incorporating this idea of continuous API documentation into consideration while working on APIs to improve collaboration and feedback.
 
