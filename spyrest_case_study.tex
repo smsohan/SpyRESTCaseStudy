@@ -575,47 +575,7 @@ A series of transformation needs to take place to produce usable API documentati
   \item \textbf{Custom content analyzer}: The version, resource, and action analyzers detect commonly seen patterns and extracts the relevant information. The result is also used to automatically infer a human readable description for each API action. For the given example, the auto detected description is as follows: $Create a Post$ by combining the HTTP verb ($POST$) with the API resource ($post$). When unfamiliar formats are used by an API or customization is required, the custom content analyzer allows API developers to override each of the auto-detected attributes such as the API version, resource, action and description by using a set of SpyREST specific request headers.
 \end{itemize}
 
-
-As shown before, SpyREST uses the aforementioned analyzers to transform the raw HTTP request and response information from example REST API calls into a structured representation of the APIs. SpyREST has a web based UI to render a hierarchical representation of the aforementioned structured data as well as the examples as the API documentation. The web UI also features a wiki-like editor on each page so that human written detailed descriptions can be added with rich content to explain business concepts. The web UI also features an executable code using cURL \footnote{\url{https://curl.haxx.se/}} for each captured API example so that the API client developers can try the API examples without having to write custom code.
-
-To generate usable API documentation, REST API developers need to run appropriate example API calls via SpyREST proxy server. Once a set of example API calls are defined, the documentation can be auto-updated by replaying the example API calls. The replay only updates the auto-generated part of the documentation leaving the human written descriptions unchanged.
-
-To summarize, SpyREST provides tool support to improve the process of REST API documentation with usage examples, automatic updates, executable examples and a consistent hierarchical representation of the API.
-
-\section{SpyREST at Cisco}
-
-\subsection{Case Study API} % (fold)
-\label{sub:the_api}
-SpyREST has been used to document the REST API for a cloud delivered cyber security application at Cisco. The API allows the customers of the cyber security application to extract and modify security related data specific to their businesses from the cloud to facilitate automation and custom third-party integration. For example, some customers use the API to automatically create an investigation ticket on their ticketing system for each malware detection event.
-
-At present, the API is currently available under two different versions, v0 and v1. The API is also served from three different Cisco managed cloud backend that are geographically separated for North America, Europe, and Asia Pacific. Additionally, the API is also shipped with a private cloud appliance, where customers can host the security software on-premise outside the Cisco managed cloud instances. Even though the different environments are designed to eventually serve the API with identical features, the deployment of the API to each environment is independent of the rest of the environments.
-
-In the latest version, v1, the API allows the API client developers to interact with nine different API resources, and a total of twenty API actions to be performed on those resources. For example, the API has a resource named ``Computer,'' and an action $PATCH /v1/computers/{:connector_guid}$ for updating a computer. The older version, v0, has 6 resources and 10 API actions, that are also present in v1.
-
-The API was first launched with version v0 in February 2015, and the version v1 was released in May, 2016. The API has evolved several times while keeping the version numbers unchanged to release backward compatible new features and bug fixes. At present, the API serves 80,000 API calls on an average per day (as per the API call logs) on an average and used by over a hundred enterprise customers that are globally distributed. The customers use the SpyREST generated documentation as the sole information source for learning the API features. Each customer application uses a single API key, but possibly developed by multiple API client developers. The actual number of API client users is not known at this time.
-
-\subsection{The Stakeholders} % (fold)
-The REST API has several stakeholders as follows: customers, API client developers, customer support team, product management, API developers, and quality assurance engineers. Customers and potential customers are interested in an API so that custom tooling and business specific integration can be performed. The API adds further value to the customers or the cyber security application. API client developers are often employed by the customers to implement API integrations. The API client developers are interested in the technical details about the API and actively use the API documentation to implement the custom features for the customers. At present, over a hundred unique customers use the API at least once a month as per the API usage logs.
-
-Inside Cisco, the stakeholders are the customer support team, product management team, API developers and quality assurance engineers. The customer support team connects the developers and quality assurance engineers with the customers to establish a closed communication loop for API related requirements and customer feedback about released APIs. The product management team is responsible for providing input about API requirements and scheduling the release of API updates. API developers are Cisco employees that are in charge of implementing the API and associated documentation. The quality assurance engineers are responsible for developing and verifying the acceptance criteria for the REST API according to the requirements. At present, a total of 25 people, including the first author, are involved as the Cisco stakeholders for the REST API of the cyber security product in this case study.
-
-\subsection{The API Development Process} % (fold)
-
-\subsubsection{REST API Documentation Tool Selection}
-The API developers and QA engineers participated in the selection of an appropriate REST API documentation tool. The following wish-list of API documentation features were collected during meetings involving the stakeholders:
-
-\begin{itemize}
-  \item R1. Support multiple versions
-  \item R2. Support multiple environments
-  \item R3. Easy to maintain
-  \item R4. Include executable API usage examples
-  \item R5. Use familiar tools
-  \item R6. Allow customization
-\end{itemize}
-
-A list of REST API documentation tools were selected for ``spikes'', a practice used by the software engineers to better understand a tool and how it fits a problem in context. The API developers and QA engineers shared informal opinions based on their spikes about about three different tools, Swagger, API Blueprint, and SpyREST. Swagger and Blueprint were researched because of their perceived maturity and industry adoption information as found through online searches and StackOverflow.com activities. The first author in this paper introduced SpyREST to the teams as a candidate solution to consider.
-
-In a focused group involving a total of five developers and two QA engineers that participated in the ``spike'', the pros and cons of each tool was discussed. The verdict to use SpyREST was based on the observation that using Swagger or API blueprint required us to maintain the REST API documentation as a separate but parallel artifact from the API related code. The available tool support for Swagger or API Blueprint specifications had little support for Ruby on Rails, the primary programming language used by the team to develop it's products. As a result, Swagger or API Blueprint would require manual effort to keep the two in sync as the API evolves. SpyREST was found to provide better support for R3, R4, and R5 over Swagger or API Blueprint as the developers could auto-generate the documentation from the functional test suite that are required to be written and maintained with the code. A round of informal feedback on SpyREST was collected after the first production release of the API. The teams decided to continue using SpyREST for API documentation.
+SpyREST has a web based UI to render a hierarchical representation of the aforementioned structured data as well as the examples as the API documentation. The web UI also features a wiki-like editor on each page so that human written detailed descriptions can be added with rich content to explain business concepts. The web UI also features an executable code using cURL \footnote{\url{https://curl.haxx.se/}} for each captured API example so that the API client developers can try the API examples without having to write custom code. To generate usable API documentation, REST API developers need to run appropriate example API calls via SpyREST proxy server. Once a set of example API calls are defined, the documentation can be auto-updated by replaying the example API calls.
 
 \begin{figure*}
 \subfloat[API Overview in SpyREST]{
@@ -637,8 +597,63 @@ In a focused group involving a total of five developers and two QA engineers tha
 \label{fig:screenshot}
 \end{figure*}
 
+Fig. \ref{fig:screenshot} shows screenshots of the production REST API documentation generated from the aforementioned functional test suite. Fig. \ref{fig:screenshot_overview} shows a fragment of the manually written overview information juxtaposed to the auto-generated index of the API resources. Fig. \ref{fig:screenshot_fields} shows the output of the different analyzers within SpyREST proxy server that automatically detects the version (v1), API resource (Computer), action (PATCH /v1/compouters/...), and the structure of the response fields from the single example API call. Fig. \ref{fig:screenshot_request} shows the transformed example API request headers, body, and an executable cURL command that can be used to exercise the API call. Fig. \ref{fig:screenshot_response} shows the API response headers and body for the example.
+
+
+To summarize, SpyREST provides tool support to improve the process of REST API documentation with usage examples, automatic updates, executable examples and a consistent hierarchical representation of the API.
+
+\section{SpyREST at Cisco}
+
+\subsection{Case Study API} % (fold)
+\label{sub:the_api}
+SpyREST has been used to document the REST API for a cloud delivered cyber security application at Cisco. The API allows the customers of the cyber security application to extract and modify security related data specific to their businesses from the cloud to facilitate automation and custom third-party integration. For example, some customers use the API to automatically create an investigation ticket on their ticketing system for each malware detection event.
+
+At present, the API is currently available under two different versions, v0 and v1. The API is also served from three different Cisco managed cloud backend that are geographically separated for North America, Europe, and Asia Pacific. Additionally, the API is also shipped with a private cloud appliance, where customers can host the security software on-premise outside the Cisco managed cloud instances. Even though the different environments are designed to eventually serve the API with identical features, the deployment of the API to each environment is independent of the rest of the environments.
+
+In the latest version, v1, the API allows the API client developers to interact with nine different API resources, and a total of twenty API actions to be performed on those resources. For example, the API has a resource named ``Computer,'' and an action $PATCH /v1/computers/{:connector_guid}$ for updating a computer. The older version, v0, has 6 resources and 10 API actions, that are also present in v1.
+
+The API was first launched with version v0 in February 2015, and the version v1 was released in May, 2016. The API has evolved several times while keeping the version numbers unchanged to release backward compatible new features and bug fixes. At present, the API serves 80,000 API calls on an average per day (as per the API call logs) on an average and used by over a hundred enterprise customers that are globally distributed. The customers use the SpyREST generated documentation as the sole information source for learning the API features. Each customer application uses a single API key, but possibly developed by multiple API client developers. The actual number of API client users is not known at this time.
+
+\subsection{The API Development Process} % (fold)
+\begin{figure*}[t]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{spyrestflow.png}
+\end{center}
+\caption{API Development workflow using SpyREST at Cisco}
+\label{fig:spyrest_workflow}
+\end{figure*}
+
+
+\subsection{The Stakeholders} % (fold)
+The REST API has several stakeholders as follows: customers, API client developers, customer support team, product management, API developers, and quality assurance engineers. Customers and potential customers are interested in an API so that custom tooling and business specific integration can be performed. The API adds further value to the customers or the cyber security application. API client developers are often employed by the customers to implement API integrations. The API client developers are interested in the technical details about the API and actively use the API documentation to implement the custom features for the customers. At present, over a hundred unique customers use the API at least once a month as per the API usage logs.
+
+Inside Cisco, the stakeholders are the customer support team, product management team, API developers and quality assurance engineers. The customer support team connects the developers and quality assurance engineers with the customers to establish a closed communication loop for API related requirements and customer feedback about released APIs. The product management team is responsible for providing input about API requirements and scheduling the release of API updates. API developers are Cisco employees that are in charge of implementing the API and associated documentation. The quality assurance engineers are responsible for developing and verifying the acceptance criteria for the REST API according to the requirements. At present, a total of 25 people, including the first author, are involved as the Cisco stakeholders for the REST API of the cyber security product in this case study.
+
+
+\subsubsection{REST API Documentation Tool Selection}
+The API developers and QA engineers participated in the selection of an appropriate REST API documentation tool. The following wish-list of API documentation features were collected during meetings involving the stakeholders:
+
+\begin{itemize}
+  \item R1. Support multiple versions
+  \item R2. Support multiple environments
+  \item R3. Easy to maintain
+  \item R4. Include executable API usage examples
+  \item R5. Use familiar tools
+  \item R6. Allow customization
+\end{itemize}
+
+A list of REST API documentation tools were selected for ``spikes'', a practice used by the software engineers to better understand a tool and how it fits a problem in context. The API developers and QA engineers shared informal opinions based on their spikes about about three different tools, Swagger, API Blueprint, and SpyREST. Swagger and Blueprint were researched because of their perceived maturity and industry adoption information as found through online searches and StackOverflow.com activities. The first author in this paper introduced SpyREST to the teams as a candidate solution to consider.
+
+In a focused group involving a total of five developers and two QA engineers that participated in the ``spike'', the pros and cons of each tool was discussed. The verdict to use SpyREST was based on the observation that using Swagger or API blueprint required us to maintain the REST API documentation as a separate but parallel artifact from the API related code. The available tool support for Swagger or API Blueprint specifications had little support for Ruby on Rails, the primary programming language used by the team to develop it's products. As a result, Swagger or API Blueprint would require manual effort to keep the two in sync as the API evolves. SpyREST was found to provide better support for R3, R4, and R5 over Swagger or API Blueprint as the developers could auto-generate the documentation from the functional test suite that are required to be written and maintained with the code. A round of informal feedback on SpyREST was collected after the first production release of the API. The teams decided to continue using SpyREST for API documentation.
+
+
 \subsubsection{Documentation of a new API Action}
-The REST API developers and quality assurance engineers of the cyber security product at Cisco use SpyREST to generate the API documentation throughout the lifecycle of an API from the developer workstation to a production instance. When a new API action is introduced, the API developers write one or more functional tests against the API to show an intended usage example. If the functional test is run using SpyREST proxy server, it automatically generates the API documentation. Listing \ref{listing_test} provides an example of an automated test fragment from the case study.
+
+The REST API developers and quality assurance engineers of the cyber security product at Cisco use SpyREST to generate the API documentation throughout the lifecycle of an API from the developer workstation to a production instance as shown in Fig \ref{fig:spyrest_workflow}. When a new API action is introduced, the API developers write one or more functional tests against the API to show an intended usage example. If the functional test is run using SpyREST proxy server, it automatically generates the API documentation. Listing \ref{listing_test} provides an example of an automated test fragment from the case study.
+
+This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-7, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 8. The test is written similar to other RSpec tests.
+
+However, the $API$ class has capabilities to make the $patch$ HTTP request over an HTTP Proxy server. While using the proxy server, the $API$ class also sends the test description ``Moves computer to a group with given $connector_guid$ and $group_guid$'' with a SpyREST specific header, x-spy-rest-description, to the proxy server. As discussed earlier, the SpyREST analyzers can inspect the HTTP request and response information with the custom headers to produce usable REST API documentation from this automated test code
 
 \begin{lstlisting}[language=Ruby,breaklines=true,showspaces=false,showstringspaces=false,numbers=left,xleftmargin=2em,caption={Functional Test Code},label=listing_test]
 context 'v1' do
@@ -656,15 +671,10 @@ end
 \end{lstlisting}
 
 
-This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-7, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 8. The test is written similar to other RSpec tests.
-
-However, the $API$ class has capabilities to make the $patch$ HTTP request over an HTTP Proxy server. While using the proxy server, the $API$ class also sends the test description ``Moves computer to a group with given $connector_guid$ and $group_guid$'' with a SpyREST specific header, x-spy-rest-description, to the proxy server. As discussed earlier, the SpyREST analyzers can inspect the HTTP request and response information with the custom headers to produce usable REST API documentation from this automated test code
-
 The next step in the lifecycle of the API documentation is in the automated build server where the test suite is executed against a deployed API on a staging server through a SpyREST proxy. This promotes the REST API documentation from the developer workstation to a shared instance that is used by the quality assurance engineers, product management, and the peer developers to verify against the acceptance criteria. This often results in several loops between the developer workstations and the staging servers until the API and its documentation meets the acceptance criteria. During the team retrospective following the API production release, the following comment was captured in the meeting notes by one of the QA engineers:  \textbf{``Up-to-date documentation using SpyREST helped developing and collecting lots of input about the API in small pieces during the weekly meetings before production release''}. The API developers and quality assurance engineers add any custom content as needed to describe complex API concepts that aren't captured in the automated examples.
 
 The next step in the lifecycle of the API is a release to one or more of the production environments that customers use. With the production release of an updated API, it's documentation is automatically promoted from the staging environment to production. The promotion of the documentation is a three-step process. First, the data from the staging server is exported in a portable archive file. Then, a transformation is performed to update staging specific data such as URLs, email domains, and hostnames within the archive to match the desired production environment. Finally, the transformed archive is published to production as a read-only artifact.
 
-Fig. \ref{fig:screenshot} shows screenshots of the production REST API documentation generated from the aforementioned functional test suite. Fig. \ref{fig:screenshot_overview} shows a fragment of the manually written overview information juxtaposed to the auto-generated index of the API resources. Fig. \ref{fig:screenshot_fields} shows the output of the different analyzers within SpyREST proxy server that automatically detects the version (v1), API resource (Computer), action (PATCH /v1/compouters/...), and the structure of the response fields from the single example API call. Fig. \ref{fig:screenshot_request} shows the transformed example API request headers, body, and an executable cURL command that can be used to exercise the API call. Fig. \ref{fig:screenshot_response} shows the API response headers and body for the example.
 
 \subsubsection{Documentation of a new Version for an Existing API Action}
 
