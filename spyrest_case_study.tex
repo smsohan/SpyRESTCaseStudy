@@ -523,9 +523,9 @@ Includes access information, resources, actions, request and response structures
 
 Table \ref{table:rest_apis} contrasts the current state of tool support for REST API documentation against a set of properties that researchers identified as required for API usability. In summary, practitioners and researchers have attempted to solve the problem of REST API documentation by proposing candidate specifications to standardize the vocabulary and format of describing REST APIs. Manual work is needed by REST API developers to generate and maintain their API specifications as it evolves. These specification formats support describing the structure of different API elements (the syntax), but no support is provided for API usage examples and executable API examples (the semantics), an important attribute for API learnability as identified by the researchers. Also, we found a lack of published papers on the effectiveness of the aforementioned specification languages in an industry setting. In this research, we aim to fill this gap by sharing our experience of using an automated REST API documentation technique in the industry.
 
-\section{Overview of SpyREST} % (fold)
+\section{SpyREST -- Overview} % (fold)
 \label{sec:overview}
-We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. In our previous papers, we have discussed the design and prototype implementation of this tool in greater detail \cite{DBLP:conf/kbse/SohanAM15, DBLP:conf/kbse/SohanAM15a}.
+We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. We have discussed the details of the design and prototype implementation of this tool elsewhere~\cite{DBLP:conf/kbse/SohanAM15, DBLP:conf/kbse/SohanAM15a}.
 
 At the heart of the technique is a pass-through HTTP proxy server which acts as an interceptor between an API client and the API. This allows the proxy server to inspect the raw HTTP request and response data from the example API calls. However, for usable API documentation the raw HTTP data needs to be furthered processed and enriched with meta data. For example, given the following HTTP request and response data from an example API call to create a blog post:
 \begin{lstlisting}
@@ -703,7 +703,7 @@ API developers are required to write the tests for the APIs even if not used for
 
 The continuously updated documentation improves its correctness and verification of version compatibility as an API evolves. A breaking change in the API is likely to fail the underlying tests. For non-breaking changes, such as addition of new REST API objects, the test suite helps proving backward compatibility.
 
-One limitation of this approach is, we have observed that not all API tests are suitable to be used in the REST API documentation. For example, while it is common to add both happy and unhappy paths in the automated tests, unhappy paths are seldom included in the documentation to reduce information overload. To support such differences, API developers may need to select a subset of the tests that are run through SpyREST proxy server to be included in the documentation.
+One limitation of this approach is that not all API tests are suitable to be used in the REST API documentation. For example, while it is common to add both happy and unhappy paths in the automated tests, unhappy paths are seldom included in the documentation to reduce information overload. To support such differences, API developers may need to select a subset of the tests that are run through SpyREST proxy server to be included in the documentation.
 
 Based on our experience at Cisco, we recommend REST API developers to utilize the automated test suite to drive API usage examples in the API documentation using SpyREST.
 
