@@ -559,7 +559,8 @@ A series of transformation needs to take place to produce usable API documentati
 
   \item \textbf{API request header analyzer}: The request header analyzer removes  standard authorization credentials from the API documentation. For the given example, the API requests header analyzer transforms the $Authorization$ header's value as $Authorization: Basic FILTERED$.
 
-  \item \textbf{API body analyzer}: The body analyzer captures the request and response bodies and infers the structure of the body as an object with auto-detected field names and data types. The request body analyzers produces the following information from the given example for API documentation:
+  \item \textbf{API body analyzer}: The body analyzer captures the request and response bodies and infers the structure of the body as an object with auto-detected field names and data types. The request body analyzers produces the following information from the given example for API documentation:\\
+  
 
   \begin{tabular}{|l | l | l|}
     \hline
@@ -569,7 +570,7 @@ A series of transformation needs to take place to produce usable API documentati
     \hline
     content & String & This is a new blog post \\
     \hline
-  \end{tabular}
+  \end{tabular}\\
 
   \item \textbf{API response header analyzer}: The response header analyzer automatically removes noisy headers such as (Server, Pragma, etc.) from the documentation.
 
@@ -635,12 +636,12 @@ Inside Cisco, the stakeholders are the customer support team, product management
 The API developers and QA engineers participated in the selection of an appropriate REST API documentation tool. The following wish-list of API documentation features were collected during meetings involving the stakeholders:
 
 \begin{itemize}
-  \item R1. Support multiple versions
-  \item R2. Support multiple environments
-  \item R3. Easy to maintain
-  \item R4. Include executable API usage examples
-  \item R5. Use familiar tools
-  \item R6. Allow customization
+  \item[R1.] Support multiple versions
+  \item[R2.] Support multiple environments
+  \item[R3.] Easy to maintain
+  \item[R4.] Include executable API usage examples
+  \item[R5.] Use familiar tools
+  \item[R6.] Allow customization
 \end{itemize}
 
 A list of REST API documentation tools were selected for ``spikes'', a practice used by the software engineers to better understand a tool and how it fits a problem in context. The API developers and QA engineers shared informal opinions based on their spikes about about three different tools, Swagger, API Blueprint, and SpyREST. Swagger and Blueprint were researched because of their perceived maturity and industry adoption information as found through online searches and StackOverflow.com activities. The first author in this paper introduced SpyREST to the teams as a candidate solution to consider.
@@ -751,9 +752,10 @@ In this research, we have evaluated a solution to the problem of maintaining upd
 
 In future, we plan to improve the state of REST API documentation tool support by incorporating the ideas from this case study. We will perform an experiment to evaluate the impact of usage examples on REST API client developers. We will continue our research on SpyREST to automatically infer the relations among REST API elements and their evolution to improve the tool support for alternate navigation experience and changelog generation for REST APIs.
 
-\section{Acknowledgments}
+\section*{Acknowledgments}
+\footnotesize
 We express our gratitude to Cisco Systems Ltd. for allowing us to share the details of this case study with the research community. We are thankful to the University of Calgary for funding this research.
-
+\normalsize
 % subsection generalizability (end)
 
 
