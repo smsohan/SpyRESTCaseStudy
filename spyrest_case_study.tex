@@ -687,7 +687,7 @@ context 'v1' do
 end
 \end{lstlisting}
 
-This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-7, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 8.
+This example code is written using RSpec\footnote{\url{http://rspec.info}}, a Ruby based test framework. Line 1 mentions the API version, line 2 mentions the API resource of interest, and line 3 shows a human readable description of the test. On lines 5-7, an example HTTP patch API request is made using the method $API.patch$. Then, an example assertion is added on line 8. This practice of using tests for documentation was mentioned as an advantage by 4 of the 9 participants. For example, QA2 mentioned the following: \textbf{``SpyREST was a useful tool for us... as the (API) endpoints were documented using unit tests, (API) developers would write the documentation for a similar audience (API client developers).''}
 
 However, the $API$ class has capabilities to make the $patch$ HTTP request over an HTTP Proxy server. While using the proxy server, the $API$ class also sends the test description ``Moves computer to a group with given $connector_guid$ and $group_guid$'' with a SpyREST specific header, x-spy-rest-description, to the proxy server. As discussed earlier, the SpyREST analyzers can inspect the HTTP request and response information with the custom headers to produce usable REST API documentation from this automated test code. The PM mentioned the following feedback about the executable API examples in the documentation: \textbf{``The embedded examples are great for allowing users to try API calls quickly and easily to get a feel for how the API works.''}
 
@@ -711,7 +711,7 @@ In the case study we have observed the evolution of the API and it's documentati
 
 While the new requirements are developed, before they are released to production, the API undergoes a more frequent evolution, several times a day, triggered by internal reviews of the API by the peer API developers and the quality assurance team. The auto-generated API documentation using SpyREST is used in the internal reviews to suggest alternatives and verify API acceptance criteria.
 
-API evolution before and after the production release of the API has two opposing forces, yet one helps achieve the other. After an API is published to production, we are unable to make any breaking changes without affecting customers. To support this feature, we found it important to be able to evolve the API frequently before the API is published. The always up-to-date API documentation with SpyREST has helped establish a quick feedback loop between the API development and QA teams and the ability to make frequent changes to the API and its documentation throughout the life-cycle of the API.
+API evolution before and after the production release of the API has two opposing forces, yet one helps achieve the other. After an API is published to production, we are unable to make any breaking changes without affecting customers. To support this feature, we found it important to be able to evolve the API frequently before the API is published. The always up-to-date API documentation with SpyREST has helped establish a quick feedback loop between the API development and QA teams throughout the life-cycle of the API.
 
 
 \section{Discussion}
