@@ -136,7 +136,8 @@
   \usepackage{float}
   \floatstyle{boxed}
   \usepackage{blindtext}
-
+  \let\labelindent\relax
+  \usepackage{enumitem}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -559,7 +560,7 @@ As shown in Table \ref{table:compare}, the verdict to use SpyREST was based on t
 
 \section{SpyREST -- Overview} % (fold)
 \label{sec:overview}
-We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study. We have discussed the details of the design and prototype implementation of this tool elsewhere~\cite{DBLP:conf/kbse/SohanAM15, DBLP:conf/kbse/SohanAM15a}. At the heart of the technique is a pass-through HTTP proxy server which acts as an interceptor between an API client and the API. This allows the proxy server to inspect the raw HTTP request and response data from the example API calls. However, for usable API documentation the raw HTTP data needs to be furthered processed and enriched with meta data. For example, given the following HTTP request and response data from an example API call to create a blog post:
+We provide a brief overview of SpyREST, the REST API documentation tool and the underlying technique used in this case study \cite{DBLP:conf/kbse/SohanAM15, DBLP:conf/kbse/SohanAM15a}. At the heart of the technique is a pass-through HTTP proxy server which acts as an interceptor between an API client and the API. This allows the proxy server to inspect the raw HTTP request and response data from the example API calls. However, for usable API documentation the raw HTTP data needs to be furthered processed and enriched with meta data. For example, given the following HTTP request and response data from an example API call to create a Blog post:
 \begin{lstlisting}
   Request Verb: POST
   Request URL: /v2/posts
@@ -580,7 +581,7 @@ We provide a brief overview of SpyREST, the REST API documentation tool and the 
 
 A series of transformation needs to take place to produce usable API documentation. The proxy server used by SpyREST is customized to record and synthesize such example API calls. The transformation process involves the following analyzers:
 
-\begin{itemize}
+\begin{itemize}[leftmargin=*]
   \item \textbf{API version analyzer}. The version analyzer automatically infers the API version used by the example API call. From the aforementioned example, the version analyzer auto-detects the API version as ``v2'' based on the URL.
 
   \item \textbf{API resource analyzer}. To generate a hierarchical representation of the API elements, it's important to group multiple API actions that correspond to a single API resource under a single hierarchy. API resource analyzer automatically detects $post$ as the API resource for this example.
@@ -592,7 +593,6 @@ A series of transformation needs to take place to produce usable API documentati
   \item \textbf{API request header analyzer}: The request header analyzer removes  standard authorization credentials from the API documentation. For the given example, the API requests header analyzer transforms the $Authorization$ header's value as $Authorization: Basic FILTERED$.
 
   \item \textbf{API body analyzer}: The body analyzer captures the request and response bodies and infers the structure of the body as an object with auto-detected field names and data types. The request body analyzers produces the following information from the given example for API documentation:\\
-
 
   \begin{tabular}{|l | l | l|}
     \hline
@@ -606,10 +606,8 @@ A series of transformation needs to take place to produce usable API documentati
 
   \item \textbf{API response header analyzer}: The response header analyzer automatically removes noisy headers such as (Server, Pragma, etc.) from the documentation.
 
-  \item \textbf{Custom content analyzer}: SpyREST automatically infers a human readable description for each API action. For the given example, the auto detected description is as follows: $Create a Post$ by combining the result of other analyzers. The custom content analyzer allows API developers to override each of the auto-detected attributes such as the API version, resource, action and description by using a set of SpyREST specific request headers.
+  \item \textbf{Custom content analyzer}: SpyREST automatically infers a human readable description for each API action. For the given example, the auto detected description is as follows: $Create a Post$. The custom content analyzer allows API developers to override the auto-detected attributes such as the API version, resource, action and description by using a set of SpyREST specific HTTP headers.
 \end{itemize}
-
-SpyREST has a web based UI where it renders a hierarchical representation of the aforementioned structured data as well as the examples as the API documentation, with a wiki to customize the content. The web UI also features an executable code using cURL \footnote{\url{https://curl.haxx.se/}} for each API example so that the API client developers can try the API examples without writing code. Once a set of example API calls are defined, the documentation can be auto-updated by replaying the example API calls.
 
 \begin{figure*}
 \subfloat[API Overview in SpyREST]{
@@ -631,15 +629,14 @@ SpyREST has a web based UI where it renders a hierarchical representation of the
 \label{fig:screenshot}
 \end{figure*}
 
-Fig. \ref{fig:screenshot} shows screenshots of the production REST API documentation generated from the aforementioned functional test suite. Fig. \ref{fig:screenshot_overview} shows a fragment of the manually written overview information juxtaposed to the auto-generated index of the API resources. Fig. \ref{fig:screenshot_fields} shows the output of the different analyzers within SpyREST proxy server that automatically detects the version (v1), API resource (Computer), action (PATCH /v1/compouters/...), and the structure of the response fields from the single example API call. Fig. \ref{fig:screenshot_request} shows the transformed example API request headers, body, and an executable cURL command that can be used to exercise the API call. Fig. \ref{fig:screenshot_response} shows the API response headers and body for the example.
-
+Fig. \ref{fig:screenshot} shows SpyREST screenshots of the production REST API documentation at Cisco. Fig. \ref{fig:screenshot_overview} shows a fragment of the manually written overview information juxtaposed to the auto-generated index of the API resources. Fig. \ref{fig:screenshot_fields} shows the output of the different analyzers within SpyREST proxy server that automatically detects the version (v1), API resource (Computer), action (PATCH /v1/compouters/...), and the structure of the response fields from the single example API call. Fig. \ref{fig:screenshot_request} shows the transformed example API request headers, body, and an executable cURL command that can be used to exercise the API call. Fig. \ref{fig:screenshot_response} shows the API response headers and body for the example.
 
 To summarize, SpyREST provides tool support to improve the process of REST API documentation with usage examples, automatic updates, executable examples and a consistent hierarchical representation of the API.
 
 \section{Case Study: SpyREST at Cisco}
 
 \subsection{Methodology}
-For this case study, we use a specific REST API within Cisco. SpyREST has been used to document the REST API for a cloud delivered cyber security application at Cisco named Advanced Malware Protection for Endpoints. The API allows the customers of the cyber security application to extract and modify security related data specific to their businesses from the cloud to facilitate automation and custom third-party integration. For example, some customers use the API to automatically create an investigation ticket on their ticketing system for each malware detection event.
+For this case study, we use a specific REST API within Cisco. SpyREST has been used over the past eighteen months and is being used at the time of writing this paper to document the REST API for a cloud delivered cyber security application at Cisco named Advanced Malware Protection for Endpoints. The API allows the customers of the cyber security application to extract and modify security related data specific to their businesses from the cloud to facilitate automation and custom third-party integration. For example, some customers use the API to automatically create an investigation ticket on their ticketing system for each malware detection event.
 
 The REST API is documented using SpyREST via automated tests. To evaluate the outcome of the documentation process using SpyREST, we've incorporated stakeholder feedback as well as collected metrics from the various log files associated with the development and deployment of API docs and the actual API changes. 25 API stakeholders from Cisco were invited to provide free form feedback about the API documentation and its underlying process via emails to the first author of this paper.
 
@@ -674,6 +671,7 @@ The API was first launched with version v0 in February 2015, and the version v1 
 
 The REST API developers and quality assurance engineers of the cyber security product at Cisco use SpyREST to generate the API documentation throughout the lifecycle of an API from the developer workstation to a production instance as shown in Fig \ref{fig:spyrest_workflow}. When a new API action is introduced, the API developers write one or more functional tests against the API to show an intended usage example. If the functional test is run using SpyREST proxy server, it automatically generates the API documentation. Listing \ref{listing_test} provides an example of an automated test fragment from the case study that renders part of the documentation as shown in Fig. \ref{fig:screenshot_request} \ref{fig:screenshot_response}.
 
+\lstset{basicstyle=\footnotesize}
 \begin{lstlisting}[language=Ruby,breaklines=true,showspaces=false,showstringspaces=false,numbers=left,xleftmargin=2em,caption={Functional Test Code},label=listing_test]
 context 'v1' do
   describe 'Computer' do
@@ -719,7 +717,7 @@ API evolution before and after the production release of the API has two opposin
 \section{Discussion}
 
 \subsection{REST API Documentation from Test Code}
-API developers are required to write the tests for the APIs even if not used for documentation. At Cisco, we have learned that the documentation of the REST API from its functional test code to be a welcome side-effect. Developer D3 mentioned the following feedback: \textbf{``Using a set of functional tests to both ensure correctness of the API, as well as a source of documentation is an excellent strategy''}. When the data from the tests are intercepted to generate API documentation, API developers need to actively think about the API usage scenarios against a realistic setup. For example, one of the Cisco developers updated the test name for an API from ``Finds computers that have connected with an IP for v0'' to ``Fetches list of computers that have connected to a given IP address'' to better reflect an API action for documentation based on internal review. This enforces the need for a stable test suite since a failing test suite also breaks the API documentation.
+API developers are required to write the tests for the APIs even if not used for documentation. At Cisco, we have learned that the documentation of the REST API from its functional test code to be a welcome side-effect. Developer D3 mentioned the following feedback: \textbf{``Using a set of functional tests to both ensure correctness of the API, as well as a source of documentation is an excellent strategy''}. When the data from the tests are intercepted to generate API documentation, API developers need to actively think about the API usage scenarios against a realistic setup. For example, one of the Cisco developers updated the test name for an API from ``Finds computers that have connected with an IP for v0'' to ``Fetches list of computers that have connected to a given IP address'' to better reflect an API action for documentation based on internal review. This enforces the need for a stable test suite since a failing test suite also breaks the API documentation. Eight of the nine study participants mentioned the executable API examples and the associated request and response data as a key feature of SpyREST that helped them to review and understand the details of the API without writing code.
 
 The continuously updated documentation improves its correctness and verification of version compatibility as an API evolves. A breaking change in the API is likely to fail the underlying tests. For non-breaking changes, such as addition of new REST API objects, the test suite helps proving backward compatibility.
 
@@ -735,7 +733,7 @@ The custom content using a wiki has a drawback as it's maintained as a separate 
 We identify this as an opportunity to continue further research to improve the collaborative editing of rich customized content with auto-generated API documentation such that the custom content can be put into the version control systems.
 
 \subsection{Handling Flexible API Elements}
-The API elements within REST are not restricted to follow a strict structure. For example, in the case study, we have a flexible API element of type ``Event'' to denote a malware detection event. The actual structure of the ``Event'' API element can be widely different based on the type of the event. For example, a file detection event contains several file specific data such as the fingerprint, name, path on disk, size. On the other hand, a network detection event contains network specific data such as the remote host, URL, IP, protocol. A single API call may return a list of ``Events'' of such different types. In our case study at Cisco, the SpyREST documented API describes the ``Event'' API element as an amalgamation of all the different attributes of the different event types (fingerprint, name, path on disk, size file, remote host, URL, IP, protocol) from the intercepted example API calls. Based on customer questions on the API, we've observed both the advantages and disadvantages of automatically merging different attributes of the API elements within an array to construct the structure of an API element.
+The API elements within REST are not restricted to follow a strict structure. For example, in the case study, we have a flexible API element of type ``Event'' to denote a malware detection event. The actual structure of the ``Event'' API element can be widely different based on the type of the event. For example, a file detection event contains several file specific data such as the fingerprint, name, path on disk, size. On the other hand, a network detection event contains network specific data such as the remote host, URL, IP, protocol. A single API call may return a list of ``Events'' of such different types. This caused a confusion to a customer and the SE mentioned the following feedback: \textbf{``The only criticism I have is making sure that all of the returnable data that is available in the Response Fields, because I have found some instances where this data was missing''}. We've incorporated this feedback and changed SpyREST so that the ``Event'' API element is documented as an amalgamation of all the different attributes of the different event types (fingerprint, name, path on disk, size file, remote host, URL, IP, protocol) from the intercepted example API calls.
 
 We heave learned the main advantage is, merging the attributes of different types of API elements in an Array provides a list of all possible attributes that are observed in an API element. An API client developer reading the API documentation gets a complete picture of the API element. On the other hand, it may not clearly communicate the fact that only a subset of the documented attributes may be returned by an API call for each API element. In our case-study at Cisco, the API usage examples captured by SpyREST shows specific examples with different ``Event'' types to provide the context around the event types. We recommend practitioners to follow this pattern since it allows API client developers to understand the implied structure of flexible API elements with specific use cases.
 
